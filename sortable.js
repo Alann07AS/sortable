@@ -4,38 +4,45 @@ const loadData = heroes => {
   var searchbar = document.getElementById("search");
   searchbar.addEventListener("keyup", function (event) {
     event.preventDefault();
-    if (searchbar.value.length <2) {
+    if (searchbar.value.length < 2) {
       var allTable = document.getElementsByClassName("tableRes");
       for (var i = 0; i < allTable.length; i++) {
         allTable[i].remove();
       }
-      heroes.forEach(hero => {
-        MakeTable(hero)
-      })
+      showHeroes(10, heroes);
       return
     }
-      
+
     var allTable = document.getElementsByClassName("tableRes");
     for (var i = 0; i < allTable.length; i++) {
       allTable[i].remove();
     }
     var Filteredheroes = heroes.filter(hero => hero.name.toLowerCase().includes(searchbar.value.toLowerCase()));
     //revserse the array
-    Filteredheroes=Filteredheroes.reverse();
-    Filteredheroes.forEach(hero => {
+    Filteredheroes = Filteredheroes.reverse();
+    showHeroes(10, Filteredheroes);
+    /* Filteredheroes.forEach(hero => {
       MakeTable(hero)
-    })
+    }) */
   });
-  heroes.forEach(hero => {
-    MakeTable(hero)
-  })
+  showHeroes(10, heroes);
 }
 
 // Request the file with fetch, the data will downloaded to your browser cache.
 fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
   .then((response) => response.json()) // parse the response from JSON
   .then(loadData) // .then will call the `loadData` function with the JSON value.
-
+const showHeroes = (limitNumber, heroes) => {
+  var counter = 0;
+  heroes.forEach(hero => {
+    if (counter < limitNumber) {
+      MakeTable(hero)
+    } else {
+      return
+    }
+    counter++;
+  })
+}
 const MakeTable = (Hero) => {
   const table = document.createElement('table');
   table.className = "tableRes";
