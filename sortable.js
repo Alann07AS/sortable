@@ -1,6 +1,22 @@
 // This function is called only after the data has been fetched, and parsed.
 const loadData = heroes => {
   console.log(heroes)
+  var nbrItems = document.getElementById('nbrItems')
+  console.log(nbrItems)
+  nbrItems.addEventListener("change", () => {
+    console.log("nbrItems clicked");
+    console.log(nbrItems.value)
+    var allTable = document.getElementsByClassName("tableRes");
+      for (var i = 0; i < allTable.length; i++) {
+        allTable[i].remove();
+      }
+      if (nbrItems.value == "All") {
+        showHeroes(731, heroes);
+      } else {
+      showHeroes(nbrItems.value, heroes);
+      }
+      return
+  })
   var searchbar = document.getElementById("search");
   searchbar.addEventListener("keyup", function (event) {
     event.preventDefault();
